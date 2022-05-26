@@ -6,13 +6,18 @@ class MainClass {
     public static void main(String[] args) {
         List<EmployeeComp> list1 = new ArrayList<>(Arrays.asList(
                 new EmployeeComp(10, "Tom", "Soyer", 1200),
-                new EmployeeComp(2, "Ann", "Soyer", 800),
+                new EmployeeComp(22, "Ann", "Soyer", 800),
                 new EmployeeComp(3, "Nikolai", "Verman", 700)
         ));
         System.out.println("before sort");
         System.out.println(list1);
         Collections.sort(list1, new ComparatorIdClass());
         System.out.println("after sort");
+        System.out.println(list1);
+
+        Comparator<EmployeeComp> nameComparator = Comparator.comparing(EmployeeComp::getName);
+        Collections.sort(list1, nameComparator);
+        System.out.println("after name sort");
         System.out.println(list1);
     }
 }
