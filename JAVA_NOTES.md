@@ -41,4 +41,13 @@ class Info<T> {
     }
 }
 ```
-Type erasure
+Type erasure - info about generic in compiling erasuring
+```
+public void abc(Info1<String> info){//compiler see both methods like abc(Info info)
+        String s = info.getValue();
+    }
+
+    public void abc(Info1<Integer> info){
+        Integer i = info.getValue();
+    }
+```
