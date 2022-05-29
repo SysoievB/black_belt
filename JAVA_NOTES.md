@@ -41,7 +41,9 @@ class Info<T> {
     }
 }
 ```
-Type erasure - info about generic in compiling erasuring
+#### Type erasure 
+
+- info about generic in compiling erasuring
 ```
 public void abc(Info1<String> info){//compiler see both methods like abc(Info info)
         String s = info.getValue();
@@ -51,3 +53,16 @@ public void abc(Info1<String> info){//compiler see both methods like abc(Info in
         Integer i = info.getValue();
     }
 ```
+#### Wildcards
+```
+        List<Number> list = new ArrayList<Integer>(); //do not compile
+        List<?> list1 = new ArrayList<Integer>();//compile
+        list1.add(5);//do not compile
+        
+        //where we can use wildcards 
+        static void showListInfo(List<?> list) {
+        System.out.println(list);
+    }
+```
+? - means any type
+we can write Object but it will be the collection with Objects only
