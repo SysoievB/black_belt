@@ -50,6 +50,5 @@ class Test {
         Car.Engine engine1 = car.new Engine(230);
         System.out.println(car.toString());
         System.out.println(engine1.toString());
-        //car.method();
     }
 }
