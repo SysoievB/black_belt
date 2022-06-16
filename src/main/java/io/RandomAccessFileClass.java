@@ -1,11 +1,11 @@
-package nio;
+package io;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class RandomAccessFileClass {
     public static void main(String[] args) {
-        try (RandomAccessFile randomAccessFile = new RandomAccessFile("src\\main\\resources\\nio\\raf.txt", "rw")) {
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile("src\\main\\resources\\raf.txt", "rw")) {
 
             int a = randomAccessFile.read();
             System.out.println((char) a);//reads one char
