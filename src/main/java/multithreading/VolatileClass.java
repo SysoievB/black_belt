@@ -17,6 +17,7 @@ public class VolatileClass extends Thread {
         thread.start();
         Thread.sleep(3000);
         System.out.println("After 3 secs it is time to wake up!!!");
+
         thread.b = false;
         thread.join();
         System.out.println("END!!!");
