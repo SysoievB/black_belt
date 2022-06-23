@@ -15,19 +15,30 @@ public class SynchronizedClass {
 
 class Counter {
     static int count = 0;
+    static int countBlock = 0;
 }
 
 class MyRunnable1 implements Runnable {
 
     public synchronized void increment() {
-            Counter.count++;
+        System.out.println("hello from increment");
+        Counter.count++;
         System.out.print(Counter.count + " ");
+    }
+
+    public void incrementSynchronizedBlock() {
+        System.out.println("hello from increment synchronized block");
+        synchronized (this) {
+            Counter.countBlock++;
+            System.out.print(Counter.countBlock + " ");
+        }
     }
 
     @Override
     public void run() {
         for (int i = 0; i < 3; i++) {
             increment();
+            incrementSynchronizedBlock();
         }
     }
 }
