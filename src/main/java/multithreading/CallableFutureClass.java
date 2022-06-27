@@ -1,19 +1,36 @@
 package multithreading;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class CallableFutureClass {
     static int factorialResult;
+    static int factorialResultCall;
 
-    public static void main(String[] args) throws InterruptedException {
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        System.out.println("RUNNABLE");
         Factorial factorial = new Factorial(5);
         executorService.execute(factorial);
-        executorService.shutdown();
-        executorService.awaitTermination(10, TimeUnit.SECONDS);
+        try {
+            executorService.awaitTermination(3, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(factorialResult);
+        System.out.println("CALLABLE");
+        FactorialCall callFactorial = new FactorialCall(5);
+        Future<Integer> future = executorService.submit(callFactorial);
+        try {
+            factorialResultCall = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            System.out.println(e.getCause());
+        } finally {
+            executorService.shutdown();
+        }
+        System.out.println(factorialResultCall);
+
+
     }
 }
 
@@ -35,5 +52,25 @@ class Factorial implements Runnable {
             result *= i;
         }
         CallableFutureClass.factorialResult = result;
+    }
+}
+
+class FactorialCall implements Callable<Integer> {
+    int f;
+
+    public FactorialCall(int f) {
+        this.f = f;
+    }
+
+    @Override
+    public Integer call() throws Exception {
+        if (f <= 0) {
+            throw new IllegalStateException("You enter wrong number!!!");
+        }
+        int result = 1;
+        for (int i = 1; i <= f; i++) {
+            result *= i;
+        }
+        return result;
     }
 }
