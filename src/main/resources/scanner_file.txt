@@ -1,0 +1,4 @@
+Scanner is a class in java. util package used for obtaining the input of the
+primitive types like int, double, etc. and strings. It is the easiest way to
+read input in a Java program, though not very efficient if you want an input
+method for scenarios where time is a constraint like in competitive programming.
