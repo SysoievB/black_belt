@@ -6,5 +6,6 @@ public class RegexClass2 {
                 "Vasiliev Inokentii, Ukraine, Dnipro, Shevchenko street,123, flat 68,email: vasilievi@mail.ua, Postcode: SD432, Phone number: +987654321" +
                 "Aksenova Anna, Poland, Warsaw, Duda street,9, flat 4,email: aksenovanna@mail.ua, Postcode: DF433, Phone number: +482342345";
 
+
     }
 }
