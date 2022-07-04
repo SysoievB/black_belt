@@ -7,7 +7,7 @@ public class StatClass {
     public static void main(String[] args) {
         System.out.println(new StatClass().message);
         System.out.println(statMessage);
-        System.out.println('*');
+        System.out.println('-');
         new StatClass().nonStat();
     }
 
