@@ -26,6 +26,7 @@ class Parent {
         this.name = name;
     }
 
+    @SuppressWarnings("deprecated")
     @Deprecated
     void showInfo() {
         System.out.println("parent " + this.name);
