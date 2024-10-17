@@ -1,0 +1,20 @@
+package virtual_threads;
+
+import java.time.Duration;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ThreadCreationLimit {
+    private static final Logger log = LoggerFactory.getLogger(ThreadCreationLimit.class);
+
+    private static void ioIntensive(int i) {
+        try {
+            log.info("starting I/O task {}. Thread Info: {}", i, Thread.currentThread());
+            Thread.sleep(Duration.ofSeconds(10));
+            log.info("ending I/O task {}. Thread Info: {}", i, Thread.currentThread());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
