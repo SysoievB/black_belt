@@ -1,4 +1,4 @@
-package virtual_threads;
+package virtual_threads.creation;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
