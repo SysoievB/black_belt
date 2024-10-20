@@ -20,3 +20,7 @@ public class MapMultiClass {
         mapMultiList.forEach(System.out::println);
     }
 }
+//hello
+//hi100
+//ola100
+//привет
