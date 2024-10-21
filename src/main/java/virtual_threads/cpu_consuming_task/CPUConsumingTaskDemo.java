@@ -7,14 +7,22 @@ import java.util.concurrent.CountDownLatch;
 
 import static virtual_threads.CommonUtils.timer;
 
+/**
+ * A simple demo to show that Virtual threads are NOT faster compared to Platform.
+ */
 public class CPUConsumingTaskDemo {
     private static final Logger log = LoggerFactory.getLogger(CPUConsumingTaskDemo.class);
 
-    public static final int TASKS_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final int TASKS_COUNT = 3 * Runtime.getRuntime().availableProcessors();
 
     public static void main(String[] args) {
-        demo(Thread.ofPlatform(), 4);
-        System.out.println(TASKS_COUNT);
+        log.info("Tasks Count: {}", TASKS_COUNT);
+        for (int i = 0; i < 3; i++) {
+            var totalTimeTaken = timer(() -> demo(Thread.ofVirtual(), 20));
+            log.info("Total time taken with virtual {} ms", totalTimeTaken);
+            totalTimeTaken = timer(() -> demo(Thread.ofPlatform(), 20));
+            log.info("Total time taken with platform {} ms", totalTimeTaken);
+        }
     }
 
     private static void demo(Thread.Builder builder, int inputValue){
@@ -37,7 +45,6 @@ public class CPUConsumingTaskDemo {
         var timeTaken = timer(() -> log.info("Result is: {}", findFib(i)));
         log.info("ending CPU task. time taken: {} ms", timeTaken);
     }
-
 
     /**
      * 2 ^ N algorithm - intentionally done this way to simulate CPU intensive task
