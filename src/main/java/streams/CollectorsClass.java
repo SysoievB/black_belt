@@ -10,10 +10,10 @@ public class CollectorsClass {
 
     public static void main(String[] args) {
         val people = List.of(
-                new Person("Vasia", "Vasev", 20),
-                new Person("Valera", "King", 17),
-                new Person("Ann", "Vasev", 16),
-                new Person("John", "Muds", 22)
+                new Person("Vasia", "Vasev", 20, List.of("hello, how are you?")),
+                new Person("Valera", "King", 17, List.of("hello")),
+                new Person("Ann", "Vasev", 16, List.of("hi, how are you?")),
+                new Person("John", "Muds", 22, List.of("watsupp!!!"))
         );
 
         List<Person> list = people
@@ -32,9 +32,9 @@ public class CollectorsClass {
                 .stream()
                 .collect(Collectors.toUnmodifiableSet());
 
-        Set<Person> treeSet = people
+        List<Person> treeSet = people
                 .stream()
-                .collect(Collectors.toCollection(TreeSet::new));
+                .collect(Collectors.toCollection(LinkedList::new));
 
         Map<String, String> nameAndSurnameMap = people
                 .stream()
@@ -44,49 +44,62 @@ public class CollectorsClass {
                 .stream()
                 .collect(Collectors.toUnmodifiableMap(Person::getName, Person::getSurname));
 
-        // Convert elements to strings and concatenate them, separated by commas
+        System.out.println("-->  Convert elements to strings and concatenate them, separated by commas");
         String joined = people.stream()
                 .map(Person::toString)
                 .collect(Collectors.joining(", "));
+        System.out.println(joined);
 
-        // Compute sum of ages of people
+        System.out.println("-->  Compute sum of ages of people");
         int total = people
                 .stream()
                 .collect(Collectors.summingInt(Person::getAge));
+        System.out.println(total);
 
-        // Statistics of ages of people
+        System.out.println("-->  Statistics of ages of people");
         IntSummaryStatistics statistics = people
                 .stream()
                 .collect(Collectors.summarizingInt(Person::getAge));
+        System.out.println(statistics.getClass());
+        System.out.println(statistics.getMax());
+        System.out.println(statistics.getMin());
+        System.out.println(statistics.getSum());
+        System.out.println(statistics.getAverage());
+        System.out.println(statistics.getCount());
 
-        // Count amount of people
+        System.out.println("-->  Count average age of people");
         double averageAge = people
                 .stream()
                 .collect(Collectors.averagingDouble(Person::getAge));
+        System.out.println(averageAge);
 
-        // Count amount of people
+        System.out.println("-->  Count amount of people");
         long countPeople = people
                 .stream()
                 .collect(Collectors.counting());
+        System.out.println(countPeople);
 
-        // Returns oldest person
+        System.out.println("-->  Returns oldest person");
         Person oldestPerson = people
                 .stream()
                 .collect(Collectors.maxBy(Comparator.comparing(Person::getAge)))
-                .orElse(null);
+                .orElseGet(Person::new);
+        System.out.println(oldestPerson);
 
-        // Returns youngest person
+        System.out.println("-->  Returns youngest person");
         Person youngestPerson = people
                 .stream()
                 .collect(Collectors.minBy(Comparator.comparing(Person::getAge)))
-                .orElse(null);
+                .orElseGet(Person::new);
+        System.out.println(youngestPerson);
 
-        // Group persons by name
+        System.out.println("-->  Group persons by name");
         Map<String, List<Person>> byName = people
                 .stream()
                 .collect(Collectors.groupingBy(Person::getName));
+        byName.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // Compute sum of ages
+        System.out.println("-->  Compute sum of ages");
         Map<String, Integer> totalByDept = people
                 .stream()
                 .collect(
@@ -95,13 +108,15 @@ public class CollectorsClass {
                                 Collectors.summingInt(Person::getAge)
                         )
                 );
+        totalByDept.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // Group person by age is person adult
+        System.out.println("-->  Group person by age is person adult");
         Map<Boolean, List<Person>> isAdult = people
                 .stream()
                 .collect(Collectors.partitioningBy(person -> person.getAge() > 18));
+        isAdult.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // Perform another action on a result straight after collecting ends
+        System.out.println("-->  Perform another action on a result straight after collecting ends");
         String allNames = people
                 .stream()
                 .map(Person::getName)
@@ -109,8 +124,9 @@ public class CollectorsClass {
                         Collectors.joining(", "),
                         String::toUpperCase)
                 );
+        System.out.println(allNames);
 
-        // Using teeing to compute the average age and find the eldest person
+        System.out.println("-->  Using teeing to compute the average age and find the eldest person");
         Map<String, Person> youngestAndEldestPerson = people
                 .stream()
                 .collect(Collectors.teeing(
@@ -121,27 +137,36 @@ public class CollectorsClass {
                                 "eldestPerson", eldestPerson.orElseGet(Person::new)
                         ))
                 );
+        youngestAndEldestPerson.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // Mapping collector
+        System.out.println("-->  Mapping collector");
         Map<Integer, List<String>> ageAndListOfNames = people.stream()
                 .collect(Collectors.groupingBy(Person::getAge,
                         Collectors.mapping(Person::getName, Collectors.toList())));
+        ageAndListOfNames.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // FlatMapping collector
+        System.out.println("-->  FlatMapping collector");
         Map<Integer, List<String>> ageAndListOfComments = people.stream()
                 .collect(Collectors.groupingBy(Person::getAge,
                         Collectors.flatMapping(person -> person.getComments().stream(), Collectors.toList())));
+        ageAndListOfComments.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        // Filtering collector
+        System.out.println("-->  Filtering collector");
         Map<Integer, List<Person>> ageAndListOfPersonsAdultOnly = people.stream()
                 .collect(Collectors.groupingBy(Person::getAge,
                         Collectors.filtering(person -> person.getAge() > 18, Collectors.toList())));
+        ageAndListOfPersonsAdultOnly.forEach((key, value) -> System.out.println(key + ": " + value));
+
+        System.out.println("-->  Reducing collector");
+
     }
 
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
+    @ToString
     @FieldDefaults(level = AccessLevel.PRIVATE)
+    @EqualsAndHashCode
     static class Person {
         String name;
         String surname;
