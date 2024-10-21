@@ -127,6 +127,11 @@ public class CollectorsClass {
                 .collect(Collectors.groupingBy(Person::getAge,
                         Collectors.mapping(Person::getName, Collectors.toList())));
 
+        // FlatMapping collector
+        Map<Integer, List<String>> ageAndListOfComments = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge,
+                        Collectors.flatMapping(person -> person.getComments().stream(), Collectors.toList())));
+
         // Filtering collector
         Map<Integer, List<Person>> ageAndListOfPersonsAdultOnly = people.stream()
                 .collect(Collectors.groupingBy(Person::getAge,
@@ -142,5 +147,12 @@ public class CollectorsClass {
         String name;
         String surname;
         int age;
+        List<String> comments;
+
+        public Person(String name, String surname, int age) {
+            this.name = name;
+            this.surname = surname;
+            this.age = age;
+        }
     }
 }
