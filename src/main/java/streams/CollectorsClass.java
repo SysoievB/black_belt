@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CollectorsClass {
@@ -111,12 +110,27 @@ public class CollectorsClass {
                         String::toUpperCase)
                 );
 
-        // Using the teeing collector
-        /*Map<Boolean, Person> isAdult2 = people
+        // Using teeing to compute the average age and find the eldest person
+        Map<String, Person> youngestAndEldestPerson = people
                 .stream()
                 .collect(Collectors.teeing(
-                        person -> person.getAge() > 18)
-                );*/
+                        Collectors.minBy(Comparator.comparing(Person::getAge)),
+                        Collectors.maxBy(Comparator.comparing(Person::getAge)),
+                        (youngestPerson1, eldestPerson) -> Map.of(
+                                "youngestPerson", youngestPerson1.orElseGet(Person::new),
+                                "eldestPerson", eldestPerson.orElseGet(Person::new)
+                        ))
+                );
+
+        // Mapping collector
+        Map<Integer, List<String>> ageAndListOfNames = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge,
+                        Collectors.mapping(Person::getName, Collectors.toList())));
+
+        // Filtering collector
+        Map<Integer, List<Person>> ageAndListOfPersonsAdultOnly = people.stream()
+                .collect(Collectors.groupingBy(Person::getAge,
+                        Collectors.filtering(person -> person.getAge() > 18, Collectors.toList())));
     }
 
     @AllArgsConstructor
