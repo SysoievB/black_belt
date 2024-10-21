@@ -142,8 +142,7 @@ public class CollectorsClass {
     @NoArgsConstructor
     @Getter
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    static
-    class Person {
+    static class Person {
         String name;
         String surname;
         int age;
