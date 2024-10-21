@@ -157,7 +157,11 @@ public class CollectorsClass {
                         Collectors.filtering(person -> person.getAge() > 18, Collectors.toList())));
         ageAndListOfPersonsAdultOnly.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        System.out.println("-->  Reducing collector");
+        System.out.println("--> Using reducing to find the person with the longest full name");
+        people.stream()
+                .map(person -> person.getName() + " " + person.getSurname())
+                .collect(Collectors.reducing((p1, p2) -> (p1.length() > p2.length()) ? p1 : p2))
+                .ifPresent(person -> System.out.println("Person with longest full name: " + person));
 
     }
 
