@@ -1,4 +1,4 @@
-package multithreading;
+package concurrency_multithreading.multithreading;
 
 public class WaitNotifyClass {
     public static void main(String[] args) {

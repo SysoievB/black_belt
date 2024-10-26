@@ -1,4 +1,4 @@
-package multithreading;
+package concurrency_multithreading.multithreading;
 
 public class MonitorClass {
 

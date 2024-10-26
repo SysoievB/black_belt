@@ -1,4 +1,4 @@
-package multithreading.concurrent_collections;
+package concurrency_multithreading.multithreading.concurrent_collections;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
