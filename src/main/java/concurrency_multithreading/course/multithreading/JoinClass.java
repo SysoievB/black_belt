@@ -1,4 +1,4 @@
-package concurrency_multithreading.course;
+package concurrency_multithreading.course.multithreading;
 
 import lombok.val;
 
