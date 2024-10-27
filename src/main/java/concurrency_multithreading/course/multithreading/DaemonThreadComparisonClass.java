@@ -2,7 +2,8 @@ package concurrency_multithreading.course.multithreading;
 
 import lombok.val;
 /**
- * Regular thread will finish execution first and will not wait for daemon thread even when daemon has higher priority.*/
+ * Regular thread will finish execution first and will not wait for daemon thread even when
+ * daemon has higher priority.*/
 public class DaemonThreadComparisonClass {
 
     public static void main(String[] args) {
@@ -44,8 +45,6 @@ class RegularThread implements Runnable {
         }
     }
 }
-/*
-regular is this thread daemon -> false 0
-regular is this thread daemon -> false 1
-regular is this thread daemon -> false 2
-*/
+//regular is this thread daemon -> false 0
+//regular is this thread daemon -> false 1
+//regular is this thread daemon -> false 2
