@@ -6,12 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LockReentrantLockClass {
     public static void main(String[] args) {
         Call call = new Call();
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                call.mobileCall();
-            }
-        });
+        Thread thread1 = new Thread(() -> call.mobileCall());
         Thread thread2 = new Thread(call::skypeCall);
         thread1.start();
         thread2.start();
