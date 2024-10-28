@@ -12,7 +12,7 @@ public class ProducerConsumerPattern {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        }, "producerThread");
 
         Thread consumer = new Thread(() -> {
             try {
@@ -20,7 +20,7 @@ public class ProducerConsumerPattern {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        }, "consumerThread");
 
         producer.start();
         consumer.start();
