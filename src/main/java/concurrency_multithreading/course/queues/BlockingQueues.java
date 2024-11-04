@@ -15,6 +15,7 @@ import java.util.concurrent.BlockingQueue;
  * We can do it with producer-consumer pattern !!!
  * <p>
  * put() putting items to the queue
+ * <p>
  * take() taking items from the queue
  */
 @AllArgsConstructor
