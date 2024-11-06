@@ -24,22 +24,18 @@ class DiningPhilosophersClass {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
-        Semaphore semaphore = new Semaphore(2);
+        val semaphore = new Semaphore(2);
 
         for (int i = 1; i <= 5; i++) {
-            new Philosopher(
-                    "name" + i,
-                    semaphore,
-                    getChopSticks()
-            ).start();
+            val phil = new Thread(new Philosopher("name" + i, semaphore, getChopSticks()));
+            phil.start();
         }
     }
 
     static List<ChopStick> getChopSticks() throws InterruptedException {
-        val chopStick1 = CHOP_STICKS.take();
-        val chopStick2 = CHOP_STICKS.take();
-        return List.of(chopStick1, chopStick2);
+            val chopStick1 = CHOP_STICKS.take();
+            val chopStick2 = CHOP_STICKS.take();
+            return List.of(chopStick1, chopStick2);
     }
 
     static void returnBackChopsticks(List<ChopStick> chopSticks) {
@@ -49,7 +45,7 @@ class DiningPhilosophersClass {
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class Philosopher extends Thread {
+class Philosopher implements Runnable {
     String firstName;
     Semaphore semaphore;
     List<ChopStick> chopSticks = new ArrayList<>(2);
@@ -63,14 +59,12 @@ class Philosopher extends Thread {
     @Override
     public void run() {
         try {
-            while (chopSticks.size() == 2) {
                 System.out.println("Philosopher " + firstName + " going to eat with chopstick " + chopSticks.getFirst() + " and " + chopSticks.getLast());
-                semaphore.acquire();
+                semaphore.acquire(2);
                 Thread.sleep(2000);
-                semaphore.release();
                 System.out.println("Philosopher " + firstName + " finished to eating with chopstick " + chopSticks.getFirst() + " and " + chopSticks.getLast());
                 DiningPhilosophersClass.returnBackChopsticks(chopSticks);
-            }
+                semaphore.release(2);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
