@@ -60,11 +60,11 @@ class Philosopher implements Runnable {
     public void run() {
         try {
                 System.out.println("Philosopher " + firstName + " going to eat with chopstick " + chopSticks.getFirst() + " and " + chopSticks.getLast());
-                semaphore.acquire(2);
+                semaphore.acquire();
                 Thread.sleep(2000);
                 System.out.println("Philosopher " + firstName + " finished to eating with chopstick " + chopSticks.getFirst() + " and " + chopSticks.getLast());
                 DiningPhilosophersClass.returnBackChopsticks(chopSticks);
-                semaphore.release(2);
+                semaphore.release();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
