@@ -1,5 +1,9 @@
 package concurrency_multithreading.course.tasks;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
 /**
  * <h6>Task Description: </h6>
  * There are 3 books and 5 students. Each student should read 1 book.
@@ -10,6 +14,19 @@ package concurrency_multithreading.course.tasks;
  * */
 public class LibraryClass {
     public static void main(String[] args) {
+
+    }
+}
+@Getter
+@ToString
+@AllArgsConstructor
+class Book {
+    String title;
+}
+class Student implements Runnable {
+
+    @Override
+    public void run() {
 
     }
 }
