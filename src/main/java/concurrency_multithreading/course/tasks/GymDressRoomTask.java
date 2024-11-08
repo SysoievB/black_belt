@@ -1,56 +1,31 @@
 package concurrency_multithreading.course.tasks;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Существует раздевалка в спортзале. Если в раздевалке находится женщина, то туда может
- * зайти только женщина. Если в раздевалке мужчина - то только мужчина. Если раздевалка
- * пустая, то туда может зайти любой желающий.
- * На двери есть индикатор, который может принимать 3 состояния:
- * 1) свободно
- * 2) раздевалка занята женщинами
- * 3) раздевалка занята мужчинами
- * Напишите программу, в которой мужчины и женщины смогут воспользоваться этой раздевалкой.
- */
 public class GymDressRoomTask {
     public static void main(String[] args) {
+        GYM gym = new GYM(DoorInscription.FREE);
 
-    }
-}
+        List<Person> attenders = List.of(
+                new Person("Vasia", Gender.MAN, gym),
+                new Person("Lena", Gender.WOMAN, gym),
+                new Person("Ann", Gender.WOMAN, gym),
+                new Person("Ignat", Gender.MAN, gym),
+                new Person("Ulbek", Gender.MAN, gym),
+                new Person("Murzan", Gender.MAN, gym),
+                new Person("Dan", Gender.MAN, gym),
+                new Person("Olia", Gender.WOMAN, gym)
+        );
 
-class GYM {
-    @Getter
-    @Setter
-    private DoorInscription doorInscription;
-    private final List<Person> GYM_BENCHES = new ArrayList<>(5);//todo common resource
-
-    void letsDress(Person person) {
-        if (isDressingAllowed(person.getGender())) {
-            GYM_BENCHES.add(person);
-        }
-    }
-
-    void dressingFinished(Person person) {
-        GYM_BENCHES.remove(person);
-    }
-
-    boolean isDressingAllowed(Gender gender) {
-        if (doorInscription == DoorInscription.FREE) {
-            return true;
-        } else if (doorInscription == DoorInscription.MAN_ONLY && gender == Gender.MAN) {
-            return true;
-        } else if (doorInscription == DoorInscription.WOMAN_ONLY && gender == Gender.WOMAN) {
-            return true;
-        } else {
-            return false;
-        }
+        attenders
+                .parallelStream()
+                .forEach(person -> new Thread(person).start());
     }
 }
 
@@ -63,26 +38,83 @@ enum Gender {
 }
 
 @Getter
+@AllArgsConstructor
+class GYM {
+    private static final List<Person> GYM_BENCHES = Collections.synchronizedList(new ArrayList<>(5));
+    private DoorInscription doorInscription;
+
+    public synchronized boolean tryEnter(Person person) {
+        // Check if the gym is free or has only people of the same gender
+        if (doorInscription == DoorInscription.FREE ||
+                (doorInscription == DoorInscription.MAN_ONLY && person.getGender() == Gender.MAN) ||
+                (doorInscription == DoorInscription.WOMAN_ONLY && person.getGender() == Gender.WOMAN)) {
+
+            // Update door status based on the gender of the person entering
+            doorInscription = person.getGender() == Gender.MAN ? DoorInscription.MAN_ONLY : DoorInscription.WOMAN_ONLY;
+            GYM_BENCHES.add(person);
+            System.out.println(person.getName() + " entered the gym. Current status: " + doorInscription);
+            return true;
+        }
+        return false;
+    }
+
+    public synchronized void leave(Person person) {
+        GYM_BENCHES.remove(person);
+        System.out.println(person.getName() + " left the gym.");
+
+        // If no one is left in the gym, set the door status to free
+        if (GYM_BENCHES.isEmpty()) {
+            doorInscription = DoorInscription.FREE;
+            System.out.println("The gym is now free.");
+        }
+    }
+}
+
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class Person implements Runnable {
     String name;
     Gender gender;
+    GYM gym;
     int timeToDress;
 
-    Person(String name, Gender gender) {
+    Person(String name, Gender gender, GYM gym) {
         this.name = name;
         this.gender = gender;
+        this.gym = gym;
         this.timeToDress = new Random().nextInt(2000);
     }
 
     @Override
     public void run() {
         try {
-            System.out.println(name + " started to dress");
+            boolean entered = false;
+
+            // Try to enter the gym until successful
+            while (!entered) {
+                synchronized (gym) {
+                    entered = gym.tryEnter(this);
+                    if (entered) {
+                        System.out.println(name + " (" + gender + ") started dressing.");
+                    } else {
+                        System.out.println(name + " (" + gender + ") is waiting to enter.");
+                        gym.wait(500);
+                    }
+                }
+            }
+
+            // Simulate dressing time
             Thread.sleep(timeToDress);
-            System.out.println(name + " finished to dress");
+
+            // Finish dressing and leave
+            synchronized (gym) {
+                System.out.println(name + " (" + gender + ") finished dressing.");
+                gym.leave(this);
+                gym.notifyAll();
+            }
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
+            System.out.println(name + " was interrupted.");
         }
     }
 }
