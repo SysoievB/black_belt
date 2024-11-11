@@ -1,6 +1,7 @@
 package concurrency_multithreading.course.tasks;
 
 import lombok.AllArgsConstructor;
+import lombok.val;
 
 import java.util.concurrent.RecursiveTask;
 
@@ -28,28 +29,17 @@ class FibonacciNumber extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        // Directly compute the Fibonacci number for small values
-        if (number <= 10) {
-            return getFibonacciNumber(number);
-        }
 
-        // Create subtasks for F(N-1) and F(N-2)
-        FibonacciNumber subtask1 = new FibonacciNumber(number - 1);
-        FibonacciNumber subtask2 = new FibonacciNumber(number - 2);
+        // F(0) = F(1) = 0
+        if (number <= 1)
+            return number;
 
-        // Fork the first subtask to execute asynchronously
-        subtask1.fork();
+        val fib1 = new FibonacciNumber(number - 1);
+        val fib2 = new FibonacciNumber(number - 2);
 
-        // Compute the second subtask synchronously to avoid overhead
-        int result2 = subtask2.compute();
+        fib1.fork();
+        fib2.fork();
 
-        // Join the result of the first subtask and add it to the result of the second
-        return subtask1.join() + result2;
-    }
-
-    private Integer getFibonacciNumber(int number) {
-        return number == 0 || number == 1
-                ? number
-                : getFibonacciNumber(number - 1) + getFibonacciNumber(number - 2);
+        return fib1.join() + fib2.join();
     }
 }
