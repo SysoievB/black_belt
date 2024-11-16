@@ -72,7 +72,7 @@ public class SwitchClass {
 
     // Prior to Java 21
     static void testFooBarOld(String s) {
-// We have to put null check prior to switch statement to avoid NPE
+    // We have to put null check prior to switch statement to avoid NPE
         if (s == null) {
             System.out.println("Oops!");
             return;
