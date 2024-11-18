@@ -56,17 +56,15 @@ class BankAccountSimulatorClass {
 class Bank {
     int balance;
 
-    synchronized int deposit(int amount) {
+    synchronized void deposit(int amount) {
         this.balance += amount;
-        return balance;
     }
 
-    synchronized int withdraw(int amount) {
+    synchronized void withdraw(int amount) {
         if (balance < amount) {
             System.out.println("Insufficient funds for withdrawal of: " + amount);
         } else {
             this.balance -= amount;
         }
-        return balance;
     }
 }
