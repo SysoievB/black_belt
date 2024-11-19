@@ -7,6 +7,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class ElevatorTask {
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class Elevator {
+    private static final EnumSet<Destination> ROOT = EnumSet.of(Destination.GROUND_FLOOR, Destination.FIRST_FLOOR, Destination.SECOND_FLOOR);
     private static final int WEIGHT_CAPACITY = 400;
     private final List<Employee> currentPassengers = new ArrayList<>();
     private static int currentWeight = 0;
