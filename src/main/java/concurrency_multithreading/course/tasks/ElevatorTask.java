@@ -8,9 +8,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Есть лифт, грузоподъемность которого 400 кг. На этажах могут заходить разные люди.
@@ -28,25 +25,7 @@ public class ElevatorTask {
                 new Employee("Anna", 50, Destination.GROUND_FLOOR)
         );
 
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        elevatorWaiters.forEach(employee -> {
-            executorService.submit(() -> {
-                try {
-                    new Elevator().enterElevator(employee);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
-                }
-            });});
-
-        executorService.shutdown();
-        try {
-            executorService.awaitTermination(1, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
     }
 }
 
