@@ -1,13 +1,10 @@
 package concurrency_multithreading.course.tasks;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,6 +13,7 @@ import java.util.List;
  * если не превышает, то может зайти и выйти на нужном ему этаже.
  */
 public class ElevatorTask {
+    @SneakyThrows
     public static void main(String[] args) {
         List<Employee> elevatorWaiters = List.of(
                 new Employee("Vasia", 90, Destination.SECOND_FLOOR),
@@ -26,14 +24,19 @@ public class ElevatorTask {
                 new Employee("Anna", 50, Destination.GROUND_FLOOR)
         );
 
-
+        elevatorWaiters.stream().peek(Thread::start).forEach(Thread::join);
     }
 }
 
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class Elevator {
-    private static final EnumSet<Destination> ROOT = EnumSet.of(Destination.GROUND_FLOOR, Destination.FIRST_FLOOR, Destination.SECOND_FLOOR);
+    private static final List<Destination> ROOT = new LinkedList<>(List.of(
+            Destination.GROUND_FLOOR,
+            Destination.FIRST_FLOOR,
+            Destination.SECOND_FLOOR,
+            Destination.FIRST_FLOOR
+    ));
     private static final int WEIGHT_CAPACITY = 400;
     private final List<Employee> currentPassengers = new ArrayList<>();
     private static int currentWeight = 0;
@@ -53,6 +56,10 @@ class Elevator {
         currentWeight -= employee.getWeight();
         System.out.format("%s exited the elevator. Current total weight: %s kg\n", employee.getName(), currentWeight);
     }
+
+    Destination liftElevator() {
+        ROOT.forEach();
+    }
 }
 
 enum Destination {
@@ -61,9 +68,14 @@ enum Destination {
 
 @ToString
 @Getter
-@AllArgsConstructor
-class Employee {
-    String name;
+class Employee extends Thread {
+    String employeeName;
     int weight;
     Destination destination;
+
+    public Employee(String employeeName, int weight, Destination destination) {
+        this.employeeName = employeeName;
+        this.weight = weight;
+        this.destination = destination;
+    }
 }
