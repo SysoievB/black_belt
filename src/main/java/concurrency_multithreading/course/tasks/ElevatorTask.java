@@ -57,9 +57,9 @@ class Elevator {
         System.out.format("%s exited the elevator. Current total weight: %s kg\n", employee.getName(), currentWeight);
     }
 
-    Destination liftElevator() {
+    /*Destination liftElevator() {
         ROOT.forEach();
-    }
+    }*/
 }
 
 enum Destination {
