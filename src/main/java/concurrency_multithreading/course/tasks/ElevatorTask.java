@@ -24,7 +24,7 @@ public class ElevatorTask {
                 new Employee("Anna", 50, Destination.GROUND_FLOOR)
         );
 
-        elevatorWaiters.stream().peek(Thread::start).forEach(Thread::join);
+        //elevatorWaiters.stream().peek(Thread::start).forEach(Thread::join);
     }
 }
 
