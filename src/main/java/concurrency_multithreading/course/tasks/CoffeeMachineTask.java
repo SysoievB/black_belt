@@ -12,13 +12,14 @@ class CoffeeMachineTask {
     }
 }
 
-class CoffeeMachineThread extends Thread {
+class CoffeeMachine extends Thread {
     @Override
     public void run() {
+
     }
 }
 
-class UserThread extends Thread {
+class User extends Thread {
     @Override
     public void run() {
     }
