@@ -1,5 +1,8 @@
 package concurrency_multithreading.course.tasks;
 
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+
 /**
  * <h6>Coffee Machine Simulation</h6>
  * Description:
@@ -8,10 +11,10 @@ package concurrency_multithreading.course.tasks;
  */
 public class CoffeeMachineTask {
     public static void main(String[] args) throws InterruptedException {
-        CoffeeMachine machine = new CoffeeMachine();
+        val machine = new CoffeeMachine();
 
-        Barista barista = new Barista(machine);
-        User user = new User(machine);
+        val barista = new Barista(machine);
+        val user = new User(machine);
 
         barista.start();
         user.start();
@@ -60,12 +63,9 @@ class CoffeeMachine {
     }
 }
 
+@RequiredArgsConstructor
 class Barista extends Thread {
     private final CoffeeMachine coffeeMachine;
-
-    public Barista(CoffeeMachine coffeeMachine) {
-        this.coffeeMachine = coffeeMachine;
-    }
 
     @Override
     public void run() {
@@ -73,12 +73,9 @@ class Barista extends Thread {
     }
 }
 
+@RequiredArgsConstructor
 class User extends Thread {
     private final CoffeeMachine coffeeMachine;
-
-    public User(CoffeeMachine coffeeMachine) {
-        this.coffeeMachine = coffeeMachine;
-    }
 
     @Override
     public void run() {
