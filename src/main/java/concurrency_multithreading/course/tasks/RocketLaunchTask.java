@@ -1,5 +1,9 @@
 package concurrency_multithreading.course.tasks;
 
+import lombok.val;
+
+import java.util.concurrent.CountDownLatch;
+
 /**
  * <h3>Task Description: Rocket Launch Countdown</h3>
  * Description:
@@ -22,9 +26,77 @@ package concurrency_multithreading.course.tasks;
  * "All systems ready. Launching rocket!"
  */
 class RocketLaunchTask {
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws InterruptedException {
+        val rocket = new Rocket();
+        rocket.start();
     }
 }
 
+class FuelSystem extends Thread {
+    private CountDownLatch countDownLatch;
 
+    public FuelSystem(CountDownLatch countDownLatch) {
+        this.countDownLatch = countDownLatch;
+        this.start();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Fuel system check complete.");
+        countDownLatch.countDown();
+        System.out.println("countDownLatch = " + countDownLatch.getCount());
+    }
+}
+
+class NavigationSystem extends Thread {
+    private CountDownLatch countDownLatch;
+
+    public NavigationSystem(CountDownLatch countDownLatch) {
+        this.countDownLatch = countDownLatch;
+        this.start();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Navigation system check complete.");
+        countDownLatch.countDown();
+        System.out.println("countDownLatch = " + countDownLatch.getCount());
+    }
+}
+
+class CommunicationSystem extends Thread {
+    private CountDownLatch countDownLatch;
+
+    public CommunicationSystem(CountDownLatch countDownLatch) {
+        this.countDownLatch = countDownLatch;
+        this.start();
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Communication system check complete.");
+        countDownLatch.countDown();
+        System.out.println("countDownLatch = " + countDownLatch.getCount());
+    }
+}
+
+class Rocket extends Thread {
+    private CountDownLatch countDownLatch;
+
+    public Rocket() {
+        this.countDownLatch = new CountDownLatch(3);
+    }
+
+    @Override
+    public void run() {
+        new FuelSystem(countDownLatch);
+        new NavigationSystem(countDownLatch);
+        new CommunicationSystem(countDownLatch);
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("All systems ready. Launching rocket!");
+    }
+}
