@@ -2,9 +2,8 @@ package streams;
 
 import lombok.val;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MapMultiClass {
@@ -38,6 +37,24 @@ public class MapMultiClass {
                     if (num > 5) {
                         consumer.accept(num * num);
                     }
+                })
+                .forEach(System.out::println);
+
+        //or the same with flatMap
+        IntStream.rangeClosed(1, 10)
+                .boxed()
+                .flatMap(num -> {
+                    val innerList = new ArrayList<>();
+                    if (num % 2 == 0 && num <= 5) {
+                        innerList.add(num);
+                    }
+                    if (num % 2 != 0 && num <= 5) {
+                        innerList.add(num + 100);
+                    }
+                    if (num > 5) {
+                        innerList.add(num * num);
+                    }
+                    return innerList.stream();
                 })
                 .forEach(System.out::println);
     }
