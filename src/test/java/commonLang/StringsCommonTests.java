@@ -3,6 +3,7 @@ package commonLang;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringsCommonTests {
@@ -92,4 +93,40 @@ class StringsCommonTests {
         assertEquals("Courses", diff1);
         assertEquals("Tutorials", diff2);
     }
+
+    @Test
+    public void whenCalledisBlank_thenCorrect() {
+        assertThat(StringUtils.isBlank(" ")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisEmpty_thenCorrect() {
+        assertThat(StringUtils.isEmpty("")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisAllLowerCase_thenCorrect() {
+        assertThat(StringUtils.isAllLowerCase("abd")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisAllUpperCase_thenCorrect() {
+        assertThat(StringUtils.isAllUpperCase("ABC")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisMixedCase_thenCorrect() {
+        assertThat(StringUtils.isMixedCase("abC")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisAlpha_thenCorrect() {
+        assertThat(StringUtils.isAlpha("abc")).isTrue();
+    }
+
+    @Test
+    public void whenCalledisAlphanumeric_thenCorrect() {
+        assertThat(StringUtils.isAlphanumeric("abc123")).isTrue();
+    }
+
 }
