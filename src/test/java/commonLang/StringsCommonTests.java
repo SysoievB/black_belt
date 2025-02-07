@@ -135,7 +135,7 @@ class StringsCommonTests {
     @Test
     void stringUtils_join() {
         assertThat(StringUtils.join(new String[]{HELLO, WORLD}, " "))
-                .isEqualTo("Hello, world");
+                .isEqualTo("Hello World");
     }
 
     @Test
