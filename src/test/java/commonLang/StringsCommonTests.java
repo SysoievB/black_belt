@@ -7,6 +7,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringsCommonTests {
+//https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html
+    private static final String HELLO = "Hello";
+    private static final String WORLD = "World";
 
     @Test
     void containsAny() {
@@ -95,38 +98,50 @@ class StringsCommonTests {
     }
 
     @Test
-    public void whenCalledisBlank_thenCorrect() {
+    void whenCalledisBlank_thenCorrect() {
         assertThat(StringUtils.isBlank(" ")).isTrue();
     }
 
     @Test
-    public void whenCalledisEmpty_thenCorrect() {
+    void whenCalledisEmpty_thenCorrect() {
         assertThat(StringUtils.isEmpty("")).isTrue();
     }
 
     @Test
-    public void whenCalledisAllLowerCase_thenCorrect() {
+    void whenCalledisAllLowerCase_thenCorrect() {
         assertThat(StringUtils.isAllLowerCase("abd")).isTrue();
     }
 
     @Test
-    public void whenCalledisAllUpperCase_thenCorrect() {
+    void whenCalledisAllUpperCase_thenCorrect() {
         assertThat(StringUtils.isAllUpperCase("ABC")).isTrue();
     }
 
     @Test
-    public void whenCalledisMixedCase_thenCorrect() {
+    void whenCalledisMixedCase_thenCorrect() {
         assertThat(StringUtils.isMixedCase("abC")).isTrue();
     }
 
     @Test
-    public void whenCalledisAlpha_thenCorrect() {
+    void whenCalledisAlpha_thenCorrect() {
         assertThat(StringUtils.isAlpha("abc")).isTrue();
     }
 
     @Test
-    public void whenCalledisAlphanumeric_thenCorrect() {
+    void whenCalledisAlphanumeric_thenCorrect() {
         assertThat(StringUtils.isAlphanumeric("abc123")).isTrue();
+    }
+
+    @Test
+    void stringUtils_join() {
+        assertThat(StringUtils.join(new String[]{HELLO, WORLD}, " "))
+                .isEqualTo("Hello, world");
+    }
+
+    @Test
+    void stringUtils_repeat() {
+        assertThat(StringUtils.repeat(HELLO, 3))
+                .isEqualTo("HelloHelloHello");
     }
 
 }
