@@ -11,7 +11,6 @@ import java.util.Map;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class CommonCollectionsBidiMapInterface {
-
     private static BidiMap<String, String> bidi = new TreeBidiMap<>();
 
     @BeforeAll
