@@ -20,6 +20,7 @@ class CommonCollectionsBidiMapInterface {
         bidi.put("Three", "3");
     }
 
+
     @Test
     void get() {
         assertThat(bidi.get("One")).isEqualTo("1");
