@@ -30,7 +30,6 @@ class CommonCollectionsBidiMapInterface {
         assertThat(bidi.getKey("1")).isEqualTo("One");
     }
 
-
     @Test
     void inverseBidiMap() {
         Map<String, String> expectedMap = new LinkedHashMap<>();
