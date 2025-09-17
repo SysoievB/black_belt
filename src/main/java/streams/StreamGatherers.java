@@ -2,12 +2,12 @@ package streams;
 
 import java.util.List;
 import java.util.Optional;
-//import java.util.stream.Gatherers;
+import java.util.stream.Gatherers;
 import java.util.stream.Stream;
 
 public class StreamGatherers {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         // will contain: [[1, 2, 3], [4, 5, 6], [7, 8]]
         List<List<Integer>> windows = Stream
                 .of(1,2,3,4,5,6,7,8)
@@ -31,5 +31,5 @@ public class StreamGatherers {
                         .gather(Gatherers.scan(() -> "", (string, number) -> string + number))
                         .toList();
 
-    }*/
+    }
 }
