@@ -4,33 +4,30 @@ import lombok.val;
 
 import java.util.stream.IntStream;
 
-/**
- * <h1>Counter with Threads</h1>
- *
- * <h2>Task:</h2>
- * <p>Implement a simple thread-safe counter.</p>
- *
- * <h3>Requirements:</h3>
- * <ul>
- *   <li>Create a class <code>SafeCounter</code> with:
- *     <ul>
- *       <li>A private integer field <code>count</code></li>
- *       <li>A method <code>increment()</code> that safely increments the counter</li>
- *       <li>A method <code>getCount()</code> that returns the current value</li>
- *     </ul>
- *   </li>
- *   <li>In your main method:
- *     <ul>
- *       <li>Create an instance of <code>SafeCounter</code></li>
- *       <li>Start 10 threads, each of which increments the counter 1000 times</li>
- *       <li>Wait for all threads to finish</li>
- *       <li>Print the final value of the counter (should be 10000)</li>
- *     </ul>
- *   </li>
- *   <li>Use basic <code>Thread</code> class (not <code>ExecutorService</code>)</li>
- *   <li>Ensure thread safety using <code>synchronized</code>, <code>ReentrantLock</code>, or <code>AtomicInteger</code></li>
- * </ul>
- */
+/// # Counter with Threads
+/// ## Task:
+///
+/// Implement a simple thread-safe counter.
+/// ### Requirements:
+///
+///     - Create a class <code>SafeCounter</code> with:
+///
+///   - A private integer field <code>count</code>
+///     - A method <code>increment()</code> that safely increments the counter
+///     - A method <code>getCount()</code> that returns the current value
+///
+///
+///     - In your main method:
+///
+///   - Create an instance of <code>SafeCounter</code>
+///     - Start 10 threads, each of which increments the counter 1000 times
+///     - Wait for all threads to finish
+///     - Print the final value of the counter (should be 10000)
+///
+///
+///     - Use basic <code>Thread</code> class (not <code>ExecutorService</code>)
+///     - Ensure thread safety using <code>synchronized</code>, <code>ReentrantLock</code>, or <code>AtomicInteger</code>
+///
 public class SafeCounter {
     private int count = 0;
 
