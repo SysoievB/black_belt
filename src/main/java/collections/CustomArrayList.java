@@ -89,7 +89,7 @@ public class CustomArrayList<E> {
     public E get(int index) {
         // Check index bounds
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException(STR."Index: \{index} and size: \{size}");
+            throw new IndexOutOfBoundsException();//STR."Index: \{index} and size: \{size}");
         }
         // Directly return the element
         return (E) elements[index];
