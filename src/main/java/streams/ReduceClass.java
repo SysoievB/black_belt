@@ -8,8 +8,7 @@ public class ReduceClass {
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>(Arrays.asList(3, 5, 3, 2, 56, 78));
 
-        int result = list.stream().reduce((accumulator, element) -> accumulator + element).orElse(0);
+        int result = list.stream().reduce(Integer::sum).orElse(0);
         System.out.println(result);
-
     }
 }
